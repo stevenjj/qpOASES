@@ -86,7 +86,14 @@ c_wrapper:
 	@echo Compiling C interface...
 	@cd ./interfaces/c/; ${MAKE} -s
 
-.PHONY : all src examples doc testing debugging clean clobber scilab python phythoninstall c_wrapper
+PREFIX = /usr/local
+install:
+	mkdir -p $(PREFIX)/include/qpOASES
+	cp -r ./include/* $(PREFIX)/include/qpOASES
+	cp ./bin/libqpOASES.so $(PREFIX)/lib 
+
+.PHONY : all src examples doc testing debugging clean clobber scilab python phythoninstall c_wrapper install
+
 
 
 ##

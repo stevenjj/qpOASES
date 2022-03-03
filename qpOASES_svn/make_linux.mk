@@ -43,25 +43,30 @@ MATLAB_IDIR   = /usr/local/matlab/extern/include/
 MATLAB_LIBDIR = /usr/local/matlab/bin/glnxa64/
 
 # system or replacement BLAS/LAPACK
-REPLACE_LINALG = 1
+REPLACE_LINALG = 0
 
 ifeq ($(REPLACE_LINALG), 1)
 	LIB_BLAS =   ${SRCDIR}/BLASReplacement.o
 	LIB_LAPACK = ${SRCDIR}/LAPACKReplacement.o
 else
-	LIB_BLAS =   /usr/lib/libblas.so
-	LIB_LAPACK = /usr/lib/liblapack.so
+#	LIB_BLAS =   /usr/lib/libblas.so
+#	LIB_LAPACK = /usr/lib/liblapack.so
+#	LIB_BLAS =   /usr/lib/x86_64-linux-gnu/blas/libblas.so
+#	LIB_LAPACK = /usr/lib/x86_64-linux-gnu/lapack/liblapack.so
+	LIB_BLAS =   /opt/OpenBLAS/lib/libopenblas.so
+	LIB_LAPACK = /usr/lib/x86_64-linux-gnu/lapack/liblapack.so
 endif
 
 # choice of sparse solver: NONE, MA27, or MA57
 # If choice is not 'NONE', BLAS and LAPACK replacements must not be used
-USE_SOLVER = NONE
+USE_SOLVER = MA27
 
 ifeq ($(USE_SOLVER), MA57)
 	LIB_SOLVER = /usr/local/lib/libhsl_ma57.a /usr/local/lib/libfakemetis.a
 	DEF_SOLVER = SOLVER_MA57
 else ifeq ($(USE_SOLVER), MA27)
-	LIB_SOLVER = /usr/local/lib/libhsl_ma27.a
+#	LIB_SOLVER = /usr/local/lib/libhsl_ma27.a
+	LIB_SOLVER = /usr/local/lib/libma27.a
 	DEF_SOLVER = SOLVER_MA27
 else
 	LIB_SOLVER =
